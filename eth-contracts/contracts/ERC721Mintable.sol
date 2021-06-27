@@ -7,11 +7,12 @@ import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import "./Oraclize.sol";
 
 contract Ownable {
+    using Address for address;
     //  TODO's
     //  1) create a private '_owner' variable of type address with a public getter function
     address private _owner;
     //  2) create an internal constructor that sets the _owner var to the creater of the contract 
-    constructor () internal{
+    constructor () internal {
         _owner = msg.sender;
     }
     //  3) create an 'onlyOwner' modifier that throws if called by any account other than the owner.
@@ -22,7 +23,9 @@ contract Ownable {
     //  4) fill out the transferOwnership function
     //  5) create an event that emits anytime ownerShip is transfered (including in the constructor)
     event OwnerTransfer(address indexed accountFrom, address indexed accountTO);
-
+    function getContractOwner() public returns(address){
+        return _owner;
+    }
     function transferOwnership(address newOwner) public onlyOwner {
         require(newOwner != address(0), "The new owner does not hava real address");
         // TODO add functionality to transfer control of the contract to a newOwner.
@@ -389,6 +392,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
         _ownedTokens[to].push(tokenId);
     }
 
+
     /**
      * @dev Private function to add a token to this extension's token tracking data structures.
      * @param tokenId uint256 ID of the token to be added to the tokens list
@@ -461,7 +465,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     string private _symbol;
     string private _baseTokenUri;
     // TODO: create private mapping of tokenId's to token uri's called '_tokenURIs'
-    mapping(uint256 => string) private _tokenUris;
+    mapping(uint256 => string)  _tokenUris;
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
     /*
      * 0x5b5e139f ===
@@ -518,7 +522,10 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 //      -returns a true boolean upon completion of the function
 //      -calls the superclass mint and setTokenURI functions
 
-contract RollerTokens is ERC721Metadata("Real Estate Market on Blockchain" , "Capstone-Project", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/" ){
+contract RollerTokens is ERC721Metadata("RollerToken" , "Capstone-Project", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/" ){
+    string private _name; 
+    string private _symbol;
+    string private _baseTokenURI;
     function mint(address to, uint256 tokenId) public onlyOwner returns (bool){
         super._mint(to, tokenId);
         super.setTokenURI(tokenId);

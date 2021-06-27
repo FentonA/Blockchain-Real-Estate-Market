@@ -1,4 +1,4 @@
-var ERC721MintableComplete = artifacts.require('ERC721MintableComplete');
+var ERC721MintableComplete = artifacts.require('RollerTokens');
 
 contract('TestERC721Mintable', accounts => {
 
@@ -10,17 +10,17 @@ contract('TestERC721Mintable', accounts => {
             this.contract = await ERC721MintableComplete.new({from: account_one});
 
             // TODO: mint multiple tokens
-            await this.contract.mint(accounts[0], 1, "AustinRealtorTokens");
-            await this.contract.mint(accuonts[1],2, "HoustonRealtorTokens");
+            await this.contract.mint(accounts[0], 1 );
+            await this.contract.mint(accounts[1], 2 );
         })
 
         it('should return total supply', async function () { 
             let totalSupply = await this.contract.totalSupply();
-            assert.equal(totalSupply, 10);
+            assert.equal(totalSupply, 2);
         })
 
         it('should get token balance', async function () { 
-            let totalBalance = await this.contract.balancOf(account_one);
+            let totalBalance = await this.contract.balanceOf(account_one);
             assert.equal(totalBalance, 1);
         })
 
@@ -34,9 +34,9 @@ contract('TestERC721Mintable', accounts => {
             await this.contract.transferFrom(account_one, account_two, 1, {from: accounts[0]});
             let accountBalance = await this.contract.balanceOf(account_two);
             
-            assert.equal(accountBalance, 3)
+            assert.equal(accountBalance, 2)
 
-            let tokenOwner = await this.contract.ownerOf(3)
+            let tokenOwner = await this.contract.ownerOf(2)
             assert.equal(tokenOwner, account_two);
         })
     });
@@ -57,8 +57,9 @@ contract('TestERC721Mintable', accounts => {
         })
 
         it('should return contract owner', async function () { 
-            let owner = this.contract.getOwner.call();
-            assert.equal(owner, account_one);
+            let contractOwner = this.contract.getContractOwner.call();
+            console.log(contract);
+            assert.equal(contractOwner, account_one, "Not the correct contract owner");
         })
 
     });
