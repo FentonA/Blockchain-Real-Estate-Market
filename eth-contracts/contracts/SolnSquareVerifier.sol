@@ -25,8 +25,7 @@ contract SolnSquareVerifier is RollerTokens{
     uint256 numberOfSolutions = 0;
 
     // TODO define a mapping to store unique solutions submitted
-    mapping(bytes32 => Solution)
-    solutions;
+    mapping(bytes32 => Solution) solutions;
 
 
     // TODO Create an event to emit when a solution is added
