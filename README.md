@@ -1,4 +1,4 @@
-# NFT Real Estae Project
+# NFT Real Estate Project
 
 The capstone will build upon the knowledge you have gained in the course in order to build a decentralized housing product. 
 
